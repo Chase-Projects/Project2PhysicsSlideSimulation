@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <help_text>Ball
+--
+color: int
+size: int
+Friction: double
+- 	vertical: int
+-  horizontal: int
+- atEnd: boolean
+--
+Ball():
+Ball(color,size,friction):
+Ball(color,size,friction,vertical,horizontal):
+--
++getAtEnd():boolean
+
++setFriction(): void
++getFriction(): double
+
++getColor(): int
++getSize(): int
+
++getVertical(): int
++getHorizontal(): int
+</help_text>
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>296</x>
+      <y>40</y>
+      <w>256</w>
+      <h>344</h>
+    </coordinates>
+    <panel_attributes>Slide
+--
+- height: int
+- length: int
+- angle: double
+-gravity: double
+- horizontal: int
+- vertical: int
+- friction: double
+--
++ Slide():
++Slide(height, length,angle,gravity,friction):
+--
++ getHeight(): int
++ setHeight(): void
++ getLength(): int
++ setLength(): void
++setAngle(): void
++getAngle(): double
++setFriction(): void
++getFriction(): double
++setGravity(): void
++getGravity: double
++getVertical(): int
++getHorizontal(): int
++ getForce(): double
++setDefault(): void </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>48</x>
+      <y>40</y>
+      <w>240</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Ball
+--
+-color: int
+-size: int
+-Friction: double
+- 	vertical: int
+-  horizontal: int
+- atEnd: boolean
+--
++Ball():
++Ball(color,size,friction):
++Ball(color,size,friction,vertical,horizontal):
+--
++getAtEnd():boolean
++setFriction(): void
++getFriction(): double
++getColor(): int
++getSize(): int
++getVertical(): int
++getHorizontal(): int
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
