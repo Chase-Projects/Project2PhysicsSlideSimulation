@@ -41,6 +41,8 @@ public class SlideSimulationView extends JFrame
 	
 	private JPanel mainMainPanel;
 	
+	private JPanel slideSimulationPanel;
+	
 	private JPanel resultsPanel;
 	private JLabel results;
 	
@@ -52,6 +54,8 @@ public class SlideSimulationView extends JFrame
 	private JLabel friction;
 	private JSlider FrictionSlider;
 	private JLabel groundMaterial;
+	private JComboBox<String> groundMaterialSelection;
+
 	
 	
 	
@@ -71,17 +75,16 @@ public class SlideSimulationView extends JFrame
 		super("Physics Slide Simulation");
 
 		// a few constants for the size of the window
-		// final int WINDOW_WIDTH = 100;
-		// final int WINDOW_HEIGHT = 100;
+//		 final int WINDOW_WIDTH = 100;
+//		 final int WINDOW_HEIGHT = 100;
 		//
 		// // set the size
-		// setSize(200,200);
-		// setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		 setSize(900,700);
+	//	 setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Pack gets rid of the need of setSize as it condeses the window to the
 		// smallest size
-		pack();
 
 		mainPanel = new JPanel();
 		createPanel1();
@@ -95,9 +98,10 @@ public class SlideSimulationView extends JFrame
 		createPanel2();
 		add(runPanel, BorderLayout.SOUTH);
 
-	
+		//pack();
+
 		
-		
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		// setResizable(false); // to make it so the animation cannot be stretched
 	}
@@ -123,7 +127,17 @@ public class SlideSimulationView extends JFrame
 	private void createPanel3Main()
 	{
 		mainMainPanel.setLayout(new FlowLayout());
+		mainMainPanel.setSize(500,500);
 
+		slideSimulationPanel = new JPanel();
+		//BackgroundPanel clockPanel = new BackgroundPanel(Color.BLACK, Color.GREEN);
+		// slideSimulationPanel.add(clockPanel);
+		createSlideSimulationPanel();
+		//slideSimulationPanel.setSize(500,400);
+		mainMainPanel.add(slideSimulationPanel);
+
+		
+		
 		settingsPanel = new JPanel();
 		createSettingsPanel();
 		mainMainPanel.add(settingsPanel);
@@ -137,16 +151,17 @@ public class SlideSimulationView extends JFrame
 	private void createResultsPanel()
 	{
 
-		results = new JLabel("Height:" + "height" + "\n" + "angle");
+		results = new JLabel("Height:" + "height");
 		// I may need to add a diffrent as Jlabel is only one line
 		resultsPanel.add(results);
 	}
 	
 	private void createSettingsPanel()
 	{
-		settingsPanel.setLayout(new GridLayout(0,1));
 
 		settingsPanel = new JPanel();
+		settingsPanel.setLayout(new GridLayout(0,1));
+
 		height = new JLabel("height");
 		heightSlider = new JSlider(0,10);
 		heightSlider.setMajorTickSpacing(5);
@@ -172,6 +187,9 @@ public class SlideSimulationView extends JFrame
 		
 		
 		groundMaterial = new JLabel("Ground Material");
+		String[] comboOptions = { "Mulch", "Woodchips", "Asphalt" };
+	      
+		groundMaterialSelection = new JComboBox<String>(comboOptions);
 
 		settingsPanel.add(height);
 		settingsPanel.add(heightSlider);
@@ -179,12 +197,25 @@ public class SlideSimulationView extends JFrame
 		settingsPanel.add(angleSlider);
 		settingsPanel.add(friction);
 		settingsPanel.add(FrictionSlider);
+		settingsPanel.add(groundMaterial);
+		settingsPanel.add(groundMaterialSelection);
 
 		
 
 
 	}
 
+	
+	public void createSlideSimulationPanel() {
+		
+		JLabel blah = new JLabel("hello");
+		 BackgroundPanel clockPanel = new BackgroundPanel(Color.BLACK, Color.GREEN);
+		 //slideSimulationPanel.setSize(100,100);
+		 slideSimulationPanel.add(blah);
+		 slideSimulationPanel.add(clockPanel);
+		
+	
+	}
 
 	/**
 	 * TODO
@@ -193,7 +224,11 @@ public class SlideSimulationView extends JFrame
 	 */
 	public static void main(String[] args)
 	{
+
+	      
+
 		new SlideSimulationView();
+
 	}
 
 
