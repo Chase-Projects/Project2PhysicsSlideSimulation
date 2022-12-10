@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.time.ZonedDateTime;
 
@@ -8,7 +9,22 @@ public class Background extends Thread
 	private int directionX = 1, directionY = 1;
 	private int clockHeight;
 	private int clockWidth;
-
+	//private Dimension sizeOfAnimation;
+	
+//	@Override
+//	public Dimension setPerferredSize() {
+//			
+//		Dimension sizeOfAnimation = new Dimension(200, 200);
+//		return sizeOfAnimation;
+//	}
+//	
+//
+//	public Dimension setPerferredSize(Dimension sizeOfAnimation) {
+//		
+//		return sizeOfAnimation;
+//	}
+	
+	
 	public Background(BackgroundPanel clockPanel)
 	{
 		this.clockPanel = clockPanel;
@@ -103,4 +119,8 @@ public class Background extends Thread
 		// some amount of time
 
 	}
+	
+
 }
+
+
