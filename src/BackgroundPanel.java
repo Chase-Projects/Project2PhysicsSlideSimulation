@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import javax.swing.*;
 
 public class BackgroundPanel extends JPanel
@@ -6,6 +7,9 @@ public class BackgroundPanel extends JPanel
    private Color backgroundColor;
    private Color clockColor;
    private Background clock;
+   private Color colorTestForRectangle;
+   
+
 
    public BackgroundPanel(Color background, Color clockColor)
    {
@@ -16,18 +20,63 @@ public class BackgroundPanel extends JPanel
       clock.start();
    }
 
+   public void setAngle(int angle) {
+	   clock.setAngle(angle);
+	   
+   }
+   
+   public void setNewColor(Color colorTestForRectangle) {
+	   
+	   this.colorTestForRectangle = colorTestForRectangle;
+   }
+   
+   public void setLength(double length) {
+	   clock.setSlideLength(length);
+   }
+   
+   public void setHeight(int height) {
+	   clock.setSlideHeight(height);
+   }
+   
+   public void setbaseX() {
+	   clock.setX(50);
+   }
+   public void setbaseY() {
+	   clock.setY(clock.getFloor() - (10 * clock.getSlideHeight()));
+   }
    @Override
    public void paintComponent(Graphics g)
    {
-	   	setBackground(Color.BLUE);
-		 g.setColor(backgroundColor);
-		 g.fillRect(100,100,100,100);
+	    setBackground(Color.BLUE);
+		
+	   	// Set the ground
+	   	 Color ground = new Color(111, 86, 57);
+	  	 g.setColor(ground);
+		 g.fillRect(0,clock.getFloor(),400,200);
 		 
-		 g.setColor(clockColor);
-		 g.drawString(clock.getTime(), clock.getX(), clock.getY());
+		 //Set the groundMaterial Level
+		 g.setColor(Color.GREEN);
+		 g.fillRect(0,clock.getFloor(),400,30);
 		 
-		 g.setColor(clockColor);
-		 g.fillRect(120,200,90,70);
+		 //create slide
+		 g.setColor(Color.WHITE);
+		 g.drawLine(50, clock.getFloor() - (10 * clock.getSlideHeight()) , (int)Math.round(50 + 10 * clock.getSlideLength()
+), clock.getFloor());
+		 //create ladder
+		 g.setColor(Color.WHITE);
+		 g.drawLine(50, clock.getFloor() - (10 * clock.getSlideHeight()), 50, clock.getFloor());
+		 
+		 //Create ball
+		 g.setColor(Color.RED);
+	     g.fillOval(clock.getX(),clock.getY(), 15, 15);
+
+		 
+		 //Create Speed Lister
+		 
+		 g.setColor(Color.WHITE);
+		 g.drawString(clock.getTime(), clock.getX() - 10 , clock.getY() - 10);
+		 
+		
 
 
 	      // TODO: finish drawing the clock - set the color and use drawString

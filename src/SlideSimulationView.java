@@ -45,10 +45,13 @@ public class SlideSimulationView extends JFrame
 
 	private JPanel runPanel;
 	private JButton runButton;
+	private JButton refreshButton;
 
 	private JPanel mainMainPanel;
 
-	private JPanel slideSimulationPanel;
+	// private JPanel slideSimulationPanel;
+	// going to replace this by just adding the clockpanel directly??
+	private BackgroundPanel clockPanel;
 
 	private JPanel resultsPanel;
 
@@ -60,8 +63,6 @@ public class SlideSimulationView extends JFrame
 	private JLabel lengthResults;
 	private JLabel groundMaterialResults;
 	private JLabel gravityResults;
-	
-	
 
 	// TODO: Jayden, add JLabels for all information the user can choose
 	// ie. Angle, Friction, Height... Speed, Max Speed, Ground impact,...
@@ -76,7 +77,7 @@ public class SlideSimulationView extends JFrame
 	private JLabel friction;
 	private JSlider frictionSlider;
 	private JLabel groundMaterial;
-	private JComboBox<String> groundMaterialSelection;
+	private JComboBox<GroundMaterial> groundMaterialSelection;
 
 	/**
 	 * TODO
@@ -133,45 +134,54 @@ public class SlideSimulationView extends JFrame
 
 	}
 
-	private void createPanel2()
-	{
-		runButton = new JButton("Run");
-		buttonListener newListener = new buttonListener();
-		runButton.addActionListener(newListener);
 
-		runPanel.add(runButton);
-
-	}
 
 	private void createPanel3Main()
 	{
 		mainMainPanel.setLayout(new GridLayout(1, 0));
 		mainMainPanel.setSize(500, 500);
 
-		slideSimulationPanel = new JPanel();
+		 clockPanel = new BackgroundPanel(Color.BLACK,
+				Color.GREEN);
+		// slideSimulationPanel = new JPanel();
 		// BackgroundPanel clockPanel = new BackgroundPanel(Color.BLACK,
 		// Color.GREEN);
 		// slideSimulationPanel.add(clockPanel);
-		createSlideSimulationPanel();
+		// createSlideSimulationPanel();
 		// slideSimulationPanel.setSize(500,400);
-		mainMainPanel.add(slideSimulationPanel);
+		
+
+
+		mainMainPanel.add(clockPanel);
 
 		resultsPanel = new JPanel();
 		createResultsPanel();
-		// we have to put this before we add the main panel so when settings accesses the results it's not null
-		
+		// we have to put this before we add the main panel so when settings
+		// accesses the results it's not null
+
 		settingsPanel = new JPanel();
 		createSettingsPanel();
 		mainMainPanel.add(settingsPanel);
 
-		
-	
 		mainMainPanel.add(resultsPanel);
 
 
-
-
+	}
+	
+	private void createPanel2()
+	{
 		
+		runButton = new JButton("Run");
+		runButtonListener newListener = new runButtonListener();
+		runButton.addActionListener(newListener);
+
+		refreshButton = new JButton("Refresh");
+		refreshButtonListener refreshListener = new refreshButtonListener();
+		refreshButton.addActionListener(refreshListener);
+
+		runPanel.add(refreshButton);
+		runPanel.add(runButton);
+
 	}
 
 	private void createResultsPanel()
@@ -186,6 +196,7 @@ public class SlideSimulationView extends JFrame
 		groundImpactResults = new JLabel("Ground Impact: -- ");
 		groundMaterialResults = new JLabel("Groud Material: -- ");
 		gravityResults = new JLabel("Gravity: 9.8 m/s^2");
+	
 
 		resultsPanel.add(heightResults);
 		resultsPanel.add(lengthResults);
@@ -196,6 +207,7 @@ public class SlideSimulationView extends JFrame
 		resultsPanel.add(groundImpactResults);
 		resultsPanel.add(groundMaterialResults);
 		resultsPanel.add(gravityResults);
+
 	}
 
 	private void createSettingsPanel()
@@ -210,7 +222,6 @@ public class SlideSimulationView extends JFrame
 		sliderListener newListenerHeight = new sliderListener("Height",
 				heightSlider, heightResults);
 		heightSlider.addChangeListener(newListenerHeight);
-		//heightSlider.setValue(10); // this needs to be after the listener to set the results change
 
 		heightSlider.setMajorTickSpacing(5);
 		heightSlider.setMinorTickSpacing(1);
@@ -222,7 +233,7 @@ public class SlideSimulationView extends JFrame
 		sliderListener newListenerAngle = new sliderListener("Angle",
 				angleSlider, angleResults);
 		angleSlider.addChangeListener(newListenerAngle);
-		angleSlider.setValue(15); // this needs to be after the listener to set the results change
+		System.out.println(heightSlider.getValue() + "hello");
 
 		angleSlider.setMajorTickSpacing(15);
 		angleSlider.setMinorTickSpacing(5);
@@ -235,17 +246,33 @@ public class SlideSimulationView extends JFrame
 		sliderListener newListenerFriction = new sliderListener("friction",
 				frictionSlider, frictionResults);
 		frictionSlider.addChangeListener(newListenerFriction);
-		frictionSlider.setValue(0); // this needs to be after the listener to set the results change
+		frictionSlider.setValue(0); // this needs to be after the listener to
+									// set the results change
 
 		frictionSlider.setMajorTickSpacing(5);
 		frictionSlider.setMinorTickSpacing(1);
 		frictionSlider.setPaintTicks(true);
 		frictionSlider.setPaintLabels(true);
 
-		groundMaterial = new JLabel("Ground Material");
-		String[] comboOptions = { "Mulch", "Woodchips", "Asphalt" };
+		// Make this change more elegant?
+		angleSlider.setValue(15); // this needs to be after the listener to set
+									// the results change
+		heightSlider.setValue(10); // this needs to be after the listener to set
+									// the results change
+									// the results change
 
-		groundMaterialSelection = new JComboBox<String>(comboOptions);
+		groundMaterial = new JLabel("Ground Material");
+	//	String[] comboOptions = { "Mulch", "Woodchips", "Asphalt" };
+
+	//GroundMaterial[] comboOptions2 = {GroundMaterial("Mulch",10,Color.ORANGE)};
+		GroundMaterial mulch = new GroundMaterial("Mulch",10,Color.ORANGE);
+		GroundMaterial asph = new GroundMaterial("Mulch",10,Color.ORANGE);
+		GroundMaterial woodch = new GroundMaterial("Mulch",10,Color.ORANGE);
+		GroundMaterial[] comboOptions2 = {mulch,asph,woodch};
+		
+		groundMaterialSelection = new JComboBox<GroundMaterial>(comboOptions2);
+		groundMaterialSelection.setSelectedIndex(0);
+		// System.out.println(groundMaterialSelection.getSelectedIndex(0));
 
 		settingsPanel.add(height);
 		settingsPanel.add(heightSlider);
@@ -258,19 +285,21 @@ public class SlideSimulationView extends JFrame
 
 	}
 
-	public void createSlideSimulationPanel()
-	{
-
-		slideSimulationPanel.setLayout(new GridLayout(1, 0));
-		BackgroundPanel clockPanel = new BackgroundPanel(Color.BLACK,
-				Color.GREEN);
-		// slideSimulationPanel.setSize(100,100);
-		// Dimension simulationSize = new Dimension(500,500);
-		// setPreferredSize(simulationSize);
-
-		slideSimulationPanel.add(clockPanel);
-
-	}
+	// public void createSlideSimulationPanel()
+	// {
+	//
+	// slideSimulationPanel.setLayout(new GridLayout(1, 0));
+	// BackgroundPanel clockPanel = new BackgroundPanel(Color.BLACK,
+	// Color.GREEN);
+	//
+	// // slideSimulationPanel.setSize(100,100);
+	// // Dimension simulationSize = new Dimension(500,500);
+	// // setPreferredSize(simulationSize);
+	//
+	// slideSimulationPanel.add(clockPanel);
+	//
+	//
+	// }
 
 	public class sliderListener implements ChangeListener
 	{
@@ -296,68 +325,89 @@ public class SlideSimulationView extends JFrame
 
 			jlabelName.setText(variableName + ": "
 					+ String.valueOf(sliderName.getValue()));
-			System.out.println(angleSlider.getValue() + "   " + heightSlider.getValue());
-			
 
 			
+			clockPanel.setHeight(heightSlider.getValue());
 			
-//			if(angleSlider.getValue() != 0 && heightSlider.getValue() != 0) 
-//			{
-//				System.out.println("hi");
-//			lengthResults.setText("Length: " 
-//				+ String.valueOf(df.format(
-//						  heightSlider.getValue() / Math.tan(Math.toRadians(angleSlider.getValue()))) ) );
-//			}
+			
+			
+			if (angleSlider.getValue() != 0 && heightSlider.getValue() != 0)
+			{
+			
+				clockPanel.setLength(heightSlider.getValue() * Math.tan(Math.toRadians(angleSlider.getValue())));
+
+
+				
+				lengthResults.setText("Length: " + String
+						.valueOf(df.format(
+								heightSlider.getValue() * Math.tan(Math.toRadians(angleSlider.getValue())))));
+			}
 
 		}
 
 	}
 
-	public class buttonListener implements ActionListener
+	public class runButtonListener implements ActionListener
 	{
 
-		private int valueOfHeight;
+		
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			runButton.setForeground(Color.BLUE);
+		}
+	}
+	
+	public class refreshButtonListener implements ActionListener
+	{		
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			
+			angleSlider.setValue(15); // this needs to be after the listener to set
+			// the results change
+			heightSlider.setValue(4); // this needs to be after the listener to set
+			heightSlider.setValue(10); // this needs to be after the listener to set
+			frictionSlider.setValue(0);
+			clockPanel.setbaseX();
+			clockPanel.setbaseY();
+
+		}
+	}
+
+	
+	// TODO: Add listener to change the results panel ++ create a ground Material class
+	public class comboBoxListener implements ActionListener
+	{
+
+		// TODO: edit this to make it work so ground material changes
+		// add it to the combo box
 
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 
-			valueOfHeight = heightSlider.getValue();
-			// runButton.setBackground(new Color(0,0,valueOfHeight));
-			heightResults.setText("Height: ~ " + String.valueOf(valueOfHeight));
+			groundMaterialResults
+					.setText("Ground Material: " + groundMaterialSelection);
 
 		}
 
-		public class comboBoxListener implements ActionListener
-		{
-
-			// TODO: edit this to make it work so ground material changes
-			// add it to the combo box
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-
-				groundMaterialResults
-						.setText("Ground Material: " + groundMaterialSelection);
-
-			}
-
-		}
-		
 	}
 
-		/**
-		 * TODO
-		 * 
-		 * @param args
-		 */
-		public static void main(String[] args)
-		{
-
-			new SlideSimulationView();
-
-		}
-
 	
+
+	/**
+	 * TODO
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args)
+	{
+
+		new SlideSimulationView();
+
+	}
+
 }

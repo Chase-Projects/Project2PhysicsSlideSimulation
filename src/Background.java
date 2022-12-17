@@ -5,10 +5,27 @@ import java.time.ZonedDateTime;
 public class Background extends Thread
 {
 	private BackgroundPanel clockPanel;
-	private int locationX = 100, locationY = 100;
-	private int directionX = 1, directionY = 1;
+	private int locationX = 50, locationY = 100;
+	private int directionX, directionY;
 	private int clockHeight;
 	private int clockWidth;
+	
+	
+	
+	
+	//New things to add
+	private final int floor = 220;
+	private int SlideHeight;
+	private double SlideLength;
+	private int angle;
+	private final double gravity = 0.9;
+	private double acceleration = 1;
+	
+	
+	
+	
+	
+	//
 	//private Dimension sizeOfAnimation;
 	
 //	@Override
@@ -25,11 +42,71 @@ public class Background extends Thread
 //	}
 	
 	
+	
+	
 	public Background(BackgroundPanel clockPanel)
 	{
 		this.clockPanel = clockPanel;
 	}
+	
+	public void setAngle(int angle) {
+		this.angle = angle;
+	}
+	
+	public int getAngle() {
+		return angle;
+	}
+	
+	public Background(BackgroundPanel clockPanel,int height, double length, int angle)
+	{
+		this.clockPanel = clockPanel;
+		
+		this.SlideHeight = height;
+		this.SlideLength = length;
+		this.angle = angle;
+	}
 
+	
+	
+
+	
+	public int getFloor() {
+		
+		return floor;
+	}
+	
+	public int getSlideHeight() {
+		 
+
+  return SlideHeight;
+
+	}
+	
+	public double getSlideLength() {
+		return SlideLength;
+	}
+	
+	
+	
+	public void setSlideHeight(int height) {
+		
+
+		this.SlideHeight = height;
+		directionY = (int)(SlideHeight * acceleration);
+		locationY = floor - (10 * SlideHeight);
+
+		
+	}
+	
+	public void setSlideLength(double length) {
+		
+
+		this.SlideLength = length;
+		directionX = (int)Math.round(SlideLength * acceleration);
+
+		
+	}
+	
 	private void setClockHeight(int height)
 	{
 		clockHeight = height;
@@ -47,8 +124,23 @@ public class Background extends Thread
 		clockWidth = g.getFontMetrics().stringWidth(getTime());
 	}
 
+	
+	public void setX(int x )
+	{
+		
+		 locationX = x;
+	}
+
+	public void setY(int y)
+	{
+		 locationY = y;
+	}
+
+	
+
 	public int getX()
 	{
+		
 		return locationX;
 	}
 
@@ -68,45 +160,63 @@ public class Background extends Thread
 
 		// TODO: Calculate a new location (Hint: the ball should move by
 		// directionX and directionY)
-		locationX += directionX;
-		locationY += directionY;
+		
 
+		
+		if(locationX <=  rightWall && locationY <= floor ) {
+			
+			locationX += directionX;
+			locationY += directionY;
+
+			
+		}
+
+		
+		
+		
 		// TODO: if ball hits left wall or the right wall, change the x
 		// direction
-		if (locationX == leftWall || locationX == rightWall)
-		{
-			directionX *= -1;
-
-		}
-
-		// TODO: if ball hits top or bottom walls, change the y direction
-		if (locationY == topWall || locationY == bottomWall)
-		{
-			directionY *= -1;
-
-		}
+//		if (locationX == leftWall || locationX == rightWall)
+//		{
+//			directionX *= -1;
+//
+//		}
+//
+//		// TODO: if ball hits top or bottom walls, change the y direction
+//		if (locationY == topWall || locationY == bottomWall)
+//		{
+//			directionY *= -1;
+//
+//		}
 
 	}
+	
+	
 
 	public String getTime()
 	{
-		ZonedDateTime time = ZonedDateTime.now();
-		String timeString = time.getMonthValue() + "-" + time.getDayOfMonth()
-				+ "-" + time.getYear() + " " + time.getHour() + ":"
-				+ time.getMinute() + ":"
-				+ String.format("%02d", time.getSecond());
+		String timeString = "Speed = " + (directionX + directionY) + " m/s";
+		
+//		ZonedDateTime time = ZonedDateTime.now();
+//		String timeString = time.getMonthValue() + "-" + time.getDayOfMonth()
+//				+ "-" + time.getYear() + " " + time.getHour() + ":"
+//				+ time.getMinute() + ":"
+//				+ String.format("%02d", time.getSecond());
 		return timeString;
 	}
 
 	public void run()
 	{
-		for (int i = 0; i < 1000; i++)
-		{
+		while(true) {
 			move();
 			clockPanel.repaint();
+
 			try
 			{
-				Thread.sleep(10);
+				//acceleration += 0;
+//System.out.println(acceleration);
+
+				Thread.sleep(100);
 				// while sleeping the clock is running
 			}
 			catch (InterruptedException e)
