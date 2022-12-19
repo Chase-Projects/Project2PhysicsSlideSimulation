@@ -1,5 +1,8 @@
 import java.awt.Color;
 
+//TODO implement this class to make it change ground color and impact 
+
+
 public class GroundMaterial
 {
 	

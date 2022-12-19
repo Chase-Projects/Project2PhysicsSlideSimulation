@@ -4,143 +4,137 @@ import java.time.ZonedDateTime;
 
 public class Background extends Thread
 {
-	private BackgroundPanel clockPanel;
+	private BackgroundPanel slidePanel;
 	private int locationX = 50, locationY = 100;
 	private int directionX, directionY;
-	private int clockHeight;
-	private int clockWidth;
-	
-	
-	
-	
-	//New things to add
+	private int speedHeight;
+	private int speedWidth;
+
 	private final int floor = 220;
 	private int SlideHeight;
 	private double SlideLength;
 	private int angle;
-	private final double gravity = 0.9;
+//	private final double gravity = 0.9;
 	private double acceleration = 1;
-	
-	
-	
-	
-	
-	//
-	//private Dimension sizeOfAnimation;
-	
-//	@Override
-//	public Dimension setPerferredSize() {
-//			
-//		Dimension sizeOfAnimation = new Dimension(200, 200);
-//		return sizeOfAnimation;
-//	}
-//	
-//
-//	public Dimension setPerferredSize(Dimension sizeOfAnimation) {
-//		
-//		return sizeOfAnimation;
-//	}
-	
-	
-	
-	
-	public Background(BackgroundPanel clockPanel)
+
+	/**
+	 * 
+	 * @param slidePanel
+	 */
+	public Background(BackgroundPanel slidePanel)
 	{
-		this.clockPanel = clockPanel;
+		this.slidePanel = slidePanel;
 	}
 	
-	public void setAngle(int angle) {
+	
+//	/**
+//	 * 
+//	 * @param slide Panel, height, length
+//	 * This sets the angle value used in length calculations	
+//	 */
+//	public Background(BackgroundPanel slidePanel, int height, double length,
+//			int angle)
+//	{
+//		this.slidePanel = slidePanel;
+//		this.SlideHeight = height;
+//		this.SlideLength = length;
+//		this.angle = angle;
+//	}
+	
+	/**
+	 * 
+	 * @param angle
+	 * This sets the angle value used in length calculations	
+	 */
+	public void setAngle(int angle)
+	{
 		this.angle = angle;
 	}
-	
-	public int getAngle() {
+
+	/**
+	 * 
+	 * returns the angle
+	 */
+	public int getAngle()
+	{
 		return angle;
 	}
-	
-	public Background(BackgroundPanel clockPanel,int height, double length, int angle)
+
+	/**
+	 * 
+	 * returns the floor value	
+	 */
+	public int getFloor()
 	{
-		this.clockPanel = clockPanel;
-		
-		this.SlideHeight = height;
-		this.SlideLength = length;
-		this.angle = angle;
-	}
 
-	
-	
-
-	
-	public int getFloor() {
-		
 		return floor;
 	}
-	
-	public int getSlideHeight() {
-		 
 
-  return SlideHeight;
+	/**
+	 * 
+	 * returns the height of the slide
+	 */
+	public int getSlideHeight()
+	{
+
+		return SlideHeight;
 
 	}
+
 	
-	public double getSlideLength() {
+	public double getSlideLength()
+	{
 		return SlideLength;
 	}
-	
-	
-	
-	public void setSlideHeight(int height) {
-		
+
+	public void setSlideHeight(int height)
+	{
 
 		this.SlideHeight = height;
-		directionY = (int)(SlideHeight * acceleration);
+		directionY = (int) (SlideHeight * acceleration);
 		locationY = floor - (10 * SlideHeight);
 
-		
 	}
-	
-	public void setSlideLength(double length) {
-		
+
+	public void setSlideLength(double length)
+	{
 
 		this.SlideLength = length;
-		directionX = (int)Math.round(SlideLength * acceleration);
+		directionX = (int) Math.round(SlideLength * acceleration);
 
-		
 	}
-	
-	private void setClockHeight(int height)
+
+	private void setslideHeight(int height)
 	{
-		clockHeight = height;
+		speedHeight = height;
 	}
 
-	private void setClockWidth(int width)
+	private void setslideWidth(int width)
 	{
-		clockWidth = width;
+		speedWidth = width;
 	}
 
-	public void updateClockSize(Graphics g)
+	public void updateSpeedSize(Graphics g)
 	{
 		// calculate the clock height and width
-		clockHeight = g.getFontMetrics().getAscent();
-		clockWidth = g.getFontMetrics().stringWidth(getTime());
+		speedHeight = g.getFontMetrics().getAscent();
+		speedWidth = g.getFontMetrics().stringWidth(getTime());
 	}
 
-	
-	public void setX(int x )
+	public void setX(int x)
 	{
-		
-		 locationX = x;
+
+		locationX = x;
 	}
 
 	public void setY(int y)
 	{
-		 locationY = y;
+		locationY = y;
 	}
-
-	
 
 	public int getX()
 	{
-		
+
 		return locationX;
 	}
 
@@ -153,68 +147,46 @@ public class Background extends Thread
 	{
 
 		// define the boundaries
-		int rightWall = clockPanel.getWidth() - clockWidth;
-		int leftWall = 0;
-		int topWall = 0 + clockHeight;
-		int bottomWall = clockPanel.getHeight();
+		int rightWall = slidePanel.getWidth() - speedWidth;
+//		int leftWall = 0;
+//		int topWall = 0 + speedHeight;
+//		int bottomWall = slidePanel.getHeight();
 
-		// TODO: Calculate a new location (Hint: the ball should move by
-		// directionX and directionY)
-		
+	
 
-		
-		if(locationX <=  rightWall && locationY <= floor ) {
-			
+		if (locationX <= rightWall && locationY <= floor)
+		{
+
 			locationX += directionX;
 			locationY += directionY;
 
-			
 		}
 
-		
-		
-		
-		// TODO: if ball hits left wall or the right wall, change the x
-		// direction
-//		if (locationX == leftWall || locationX == rightWall)
-//		{
-//			directionX *= -1;
-//
-//		}
-//
-//		// TODO: if ball hits top or bottom walls, change the y direction
-//		if (locationY == topWall || locationY == bottomWall)
-//		{
-//			directionY *= -1;
-//
-//		}
-
 	}
-	
-	
 
 	public String getTime()
 	{
 		String timeString = "Speed = " + (directionX + directionY) + " m/s";
-		
-//		ZonedDateTime time = ZonedDateTime.now();
-//		String timeString = time.getMonthValue() + "-" + time.getDayOfMonth()
-//				+ "-" + time.getYear() + " " + time.getHour() + ":"
-//				+ time.getMinute() + ":"
-//				+ String.format("%02d", time.getSecond());
+
+		// ZonedDateTime time = ZonedDateTime.now();
+		// String timeString = time.getMonthValue() + "-" + time.getDayOfMonth()
+		// + "-" + time.getYear() + " " + time.getHour() + ":"
+		// + time.getMinute() + ":"
+		// + String.format("%02d", time.getSecond());
 		return timeString;
 	}
 
 	public void run()
 	{
-		while(true) {
+		while (true)
+		{
 			move();
-			clockPanel.repaint();
+			slidePanel.repaint();
 
 			try
 			{
-				//acceleration += 0;
-//System.out.println(acceleration);
+				// acceleration += 0;
+				// System.out.println(acceleration);
 
 				Thread.sleep(100);
 				// while sleeping the clock is running
@@ -225,12 +197,9 @@ public class Background extends Thread
 
 			}
 		}
-		// TODO: Forever, move the clock, repaint clockPanel, then sleep for
+		// TODO: Forever, move the clock, repaint slidePanel, then sleep for
 		// some amount of time
 
 	}
-	
 
 }
-
-
